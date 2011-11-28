@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 28 nov. 2011 22:45:10 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.aar.velib.RealStation" table="REALSTATION">
+        <id name="velibID" type="int">
+            <column name="VELIBID" />
+            <generator class="assigned" />
+        </id>
+        <property name="fullAdress" type="java.lang.String">
+            <column name="FULLADRESS" />
+        </property>
+        <property name="latitude" type="double">
+            <column name="LATITUDE" />
+        </property>
+        <property name="longitude" type="double">
+            <column name="LONGITUDE" />
+        </property>
+        <property name="start" type="java.sql.Timestamp">
+            <column name="START" />
+        </property>
+    </class>
+</hibernate-mapping>

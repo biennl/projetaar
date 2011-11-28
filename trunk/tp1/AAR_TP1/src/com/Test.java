@@ -3,11 +3,12 @@ package com;
 import java.util.Iterator;
 import java.util.List;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import com.aar.util.HibernateUtil;
-import com.aar.velib.Station;
+import com.aar.velib.RealStation;
 
 public class Test {
 
@@ -20,15 +21,19 @@ public class Test {
 		Transaction transaction = null;
 		try {
 			transaction = session.beginTransaction();
-			List Stations = session.createQuery("from Station").list();
+			Query query = session.createQuery("from realstation");
+			query.setMaxResults(10);
+			List Stations = query.list();
 
 			for (Iterator iter = Stations.iterator(); iter.hasNext();) {
-				Station s = (Station) iter.next();
-				System.out.println(s.getNickname());
+				RealStation s = (RealStation) iter.next();
+				System.out.println(s.getVelibID());
 			}
 			transaction.commit();
 		} catch (Exception e) {
-
+			e.printStackTrace();
+		} finally {
+			session.close();
 		}
 		// int param = 901;
 		// Query query = session.getNamedQuery("getnumberversion").setParameter(
