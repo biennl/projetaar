@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 28 nov. 2011 17:27:30 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.aar.velib.Station" table="STATION">
+        <id name="velibId" type="int">
+            <column name="VELIBID" />
+            <generator class="assigned" />
+        </id>
+        <property name="nickname" type="java.lang.String">
+            <column name="NICKNAME" />
+        </property>
+        <property name="address" type="java.lang.String">
+            <column name="ADDRESS" />
+        </property>
+        <property name="fullAddress" type="java.lang.String">
+            <column name="FULLADDRESS" />
+        </property>
+        <property name="latitude" type="double">
+            <column name="LATITUDE" />
+        </property>
+        <property name="longitude" type="double">
+            <column name="LONGITUDE" />
+        </property>
+        <property name="isOpen" type="boolean" access="field">
+            <column name="ISOPEN" />
+        </property>
+        <property name="valid" type="boolean">
+            <column name="VALID" />
+        </property>
+        <property name="version" type="int">
+            <column name="VERSION" />
+        </property>
+        <property name="start" type="java.sql.Timestamp">
+            <column name="START" />
+        </property>
+        <property name="stop" type="java.sql.Timestamp">
+            <column name="STOP" />
+        </property>
+    </class>
+</hibernate-mapping>
