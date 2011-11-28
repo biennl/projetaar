@@ -103,4 +103,9 @@ public class Station {
 		this.stop = stop;
 	}
 
+	public int nombreVersions() {
+
+		return 0;
+	}
+
 }
