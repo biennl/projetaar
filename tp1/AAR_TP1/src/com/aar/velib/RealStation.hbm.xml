@@ -8,8 +8,8 @@
             <column name="VELIBID" />
             <generator class="assigned" />
         </id>
-        <property name="fullAdress" type="java.lang.String">
-            <column name="FULLADRESS" />
+        <property name="fullAddress" type="java.lang.String">
+            <column name="FULLADDRESS" />
         </property>
         <property name="latitude" type="double">
             <column name="LATITUDE" />

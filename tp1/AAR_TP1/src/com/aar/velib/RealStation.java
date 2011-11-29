@@ -5,7 +5,7 @@ import java.sql.Timestamp;
 public class RealStation {
 
 	private int velibID;
-	private String fullAdress;
+	private String fullAddress;
 	private double latitude;
 	private double longitude;
 	private Timestamp start;
@@ -18,12 +18,12 @@ public class RealStation {
 		this.velibID = velibID;
 	}
 
-	public String getFullAdress() {
-		return fullAdress;
+	public String getFullAddress() {
+		return fullAddress;
 	}
 
-	public void setFullAdress(String fullAdress) {
-		this.fullAdress = fullAdress;
+	public void setFullAddress(String fullAdress) {
+		this.fullAddress = fullAdress;
 	}
 
 	public double getLatitude() {
