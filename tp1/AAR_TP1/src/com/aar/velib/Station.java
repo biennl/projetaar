@@ -9,7 +9,7 @@ public class Station {
 	private String fullAddress;
 	private double latitude;
 	private double longitude;
-	private boolean isOpen;
+	private int isOpen;
 	private boolean valid;
 	private int version;
 	private Timestamp start;
@@ -63,11 +63,11 @@ public class Station {
 		this.longitude = longitude;
 	}
 
-	public boolean isOpen() {
+	public int isOpen() {
 		return isOpen;
 	}
 
-	public void setOpen(boolean isOpen) {
+	public void setOpen(int isOpen) {
 		this.isOpen = isOpen;
 	}
 
