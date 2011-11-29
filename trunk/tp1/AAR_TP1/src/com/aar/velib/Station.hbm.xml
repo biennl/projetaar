@@ -23,7 +23,7 @@
         <property name="longitude" type="double">
             <column name="LONGITUDE" />
         </property>
-        <property name="isOpen" type="boolean" access="field">
+        <property name="isOpen" type="int" access="field">
             <column name="ISOPEN" />
         </property>
         <property name="valid" type="boolean">
