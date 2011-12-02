@@ -12,6 +12,6 @@
         
         <property name="show_sql">true</property>
         <mapping resource="com/aar/velib/Station.hbm.xml" /> 
-         <mapping resource="com/aar/velib/RealStation.hbm.xml"/> 
+        <mapping resource="com/aar/velib/RealStation.hbm.xml"/> 
     </session-factory>
 </hibernate-configuration>
