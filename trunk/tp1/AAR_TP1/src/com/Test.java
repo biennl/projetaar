@@ -8,7 +8,7 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 
 import com.aar.util.HibernateUtil;
-import com.aar.velib.RealStation;
+import com.aar.velib.Station;
 
 public class Test {
 
@@ -16,39 +16,30 @@ public class Test {
 	 * @param args
 	 */
 	public static void main(String[] args) {
+
+		Station station = new Station();
+		station.setVelibId(8014);
+		long n = station.nombreVersions();
+
 		Session session = HibernateUtil.getSessionFactory().openSession();
 
 		Transaction transaction = null;
 		try {
 			transaction = session.beginTransaction();
-			Query query = session.createQuery("from RealStation");
-			// query.setMaxResults(10);
-			List Stations = query.list();
-
-			for (Iterator iter = Stations.iterator(); iter.hasNext();) {
-				RealStation s = (RealStation) iter.next();
-				System.out.println(s.getVelibID());
+			Query query = session
+					.createSQLQuery("SELECT DISTINCT(nickname) FROM station WHERE GetNumberVersion(velibid) = (SELECT Max(GetNumberVersion(velibid)) FROM station)");
+			List result = query.list();
+			for (int i = 0; i < result.size(); i++) {
+				String s = (String) result.get(i);
+				System.out.println(s);
 			}
 
-			// Station s = new Station();
-			// s.setVelibId(10001);
-			// s.setAddress("test adress2");
-			// s.setVersion(10);
-			// session.save(s);
 			transaction.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
 			session.close();
 		}
-		// int param = 901;
-		// Query query = session.getNamedQuery("getnumberversion").setParameter(
-		// param, 901);
-		// List res = query.list();
-		// for (int i = 0; i < res.size(); i++) {
-		// Station station = (Station) res.get(i);
-		// System.out.println(station.getNickname());
-		// }
 
 	}
 }
