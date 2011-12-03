@@ -4,10 +4,10 @@
 <!-- Generated 28 nov. 2011 22:45:10 by Hibernate Tools 3.4.0.CR1 -->
 <hibernate-mapping>
     <class name="com.aar.velib.Station" table="STATION">
-        <id name="velibId" type="int">
-            <column name="VELIBID" />
-            <generator class="assigned" />
-        </id>
+        <composite-id>
+        	<key-property name="velibId"></key-property>
+        	<key-property name="version"></key-property>
+        </composite-id>
         <property name="nickname" type="java.lang.String">
             <column name="NICKNAME" />
         </property>
@@ -28,9 +28,6 @@
         </property>
         <property name="valid" type="boolean">
             <column name="VALID" />
-        </property>
-        <property name="version" type="int">
-            <column name="VERSION" />
         </property>
         <property name="start" type="java.sql.Timestamp">
             <column name="START" />

@@ -1,8 +1,17 @@
 package com.aar.velib;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.Iterator;
+import java.util.List;
 
-public class Station {
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+
+import com.aar.util.HibernateUtil;
+
+public class Station implements Serializable {
 	private int velibId;
 	private String nickname;
 	private String address;
@@ -103,9 +112,24 @@ public class Station {
 		this.stop = stop;
 	}
 
-	public int nombreVersions() {
+	public long nombreVersions() {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		Transaction transaction = null;
+		long n = 0;
+		try {
+			transaction = session.beginTransaction();
+			String strQuery = "select count(version) from Station where velibId ="
+					+ getVelibId();
+			Query query = session.createQuery(strQuery);
+			n = (Long) query.uniqueResult();
+			System.out.println(n);
 
-		return 0;
+			transaction.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+		return n;
 	}
-
 }
