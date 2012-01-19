@@ -15,8 +15,8 @@
 	
 	<% String label = "";
 	String number = "";
-	String numbers =(String)session.getAttribute("numbers"); 
-	double res = (Double)session.getAttribute("resultat"); 
+	String numbers =(String)request.getAttribute("numbers"); 
+	double res = (Double)request.getAttribute("resultat"); 
 	if (numbers == null || numbers.isEmpty()){
 		number = "A number please ? ";
 	}else {label = "+ "; number = numbers + "<br/>___________<br/>&nbsp;= "+res;}
