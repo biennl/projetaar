@@ -15,12 +15,12 @@ public String listToString(List<Calcul> list) {
 	res += list.get(0).getNum1();
 	
 	for (int i = 0; i < list.size(); i++) {
-		res += "<br> +   "+list.get(i).getNum2();
+		res += "<br> +&#9;&#9;&#9;"+list.get(i).getNum2();
 		res += "<hr width = \"70\" noshade=\"noshade\" align =\"left\" />";
-		res+="<br> =    ";
+		res+="=&#9;&#9;&#9;";
 		if(i+1 < list.size() - 1)
-			res += list.get(i+1).getNum1()+"<br/>";
-		else res += (list.get(i).getNum1()+list.get(i).getNum2())+"<br/>";				
+			res += list.get(i+1).getNum1();
+		else res += (list.get(i).getNum1()+list.get(i).getNum2());				
 	}
 
 	return res;
