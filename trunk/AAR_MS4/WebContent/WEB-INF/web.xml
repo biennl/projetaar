@@ -4,6 +4,7 @@
   <welcome-file-list>
     <welcome-file>addition.jsp</welcome-file>
   </welcome-file-list>
+  
   <servlet>
     <description></description>
     <display-name>Sum</display-name>
@@ -15,6 +16,8 @@
     <url-pattern>/Sum</url-pattern>
   </servlet-mapping>
   
-  
+  <session-config> 
+    <session-timeout>2</session-timeout> 
+  </session-config> 
   
 </web-app>
