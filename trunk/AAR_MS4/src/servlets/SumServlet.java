@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import dao.DAOCalcul;
 import domain.Calcul;
 
 /**
@@ -19,7 +20,7 @@ public class SumServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	ArrayList<Double> numbers = new ArrayList<Double>();
-
+	int value = 0;
 	int index = 0;
 
 	/**
@@ -38,6 +39,9 @@ public class SumServlet extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 		System.out.println(request.getContextPath() + request.getServletPath()
 				+ request.getPathInfo());
+		request.setAttribute("id", 0);
+		String url = (String) request.getAttribute("url");
+		System.out.println(url);
 	}
 
 	/**
@@ -46,41 +50,23 @@ public class SumServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		String number = request.getParameter("number");
-
+		String number = request.getParameter("name");
+		DAOCalcul dao = new DAOCalcul();
+		int id = 0;
 		if (number != null && !number.isEmpty()) {
-
-			double value = Double.parseDouble(number);
-
-			numbers.add(value);
-			index = numbers.size();
+			Calcul c = new Calcul();
+			c.setNum1(value);
+			c.setNum2(Integer.parseInt(number));
+			value += Integer.parseInt(number);
+			c.setResult(value);
+			id = dao.addCalcul(c);
 		}
-
-		response.encodeURL("");
-		RequestDispatcher dispatcher = request
-				.getRequestDispatcher("pages/addition.jsp?id=\"1\"");
-		// request.getContextPath();
-		// request
-
-		HttpSession session = request.getSession();
-		session.setAttribute("numbers", listToString(session, numbers));
-		session.setAttribute("resultat", Calcul.sommeDeList(numbers));
-		dispatcher.forward(request, response);
-		// } else {
-		// response.sendRedirect("Sum");
-		// }
+		String url = response.encodeRedirectURL("/createUrl.jsp?id=" + value);
+		response.sendRedirect(request.getContextPath() + "/createUrl.jsp?id="
+				+ id);
+		// RequestDispatcher dispatcher = request.getRequestDispatcher(url);
+		// System.out.println(url);
+		// request.setAttribute("id", value);
+		// dispatcher.include(request, response);
 	}
-
-	public String listToString(HttpSession session, ArrayList<Double> list) {
-
-		String res = (String) session.getAttribute("numbers");
-		res = "&nbsp;&nbsp;&nbsp;";
-		res += list.get(0);
-		for (int i = 1; i < list.size(); i++) {
-			res += "<br/>+ " + list.get(i).toString();
-		}
-
-		return res;
-	}
-
 }
