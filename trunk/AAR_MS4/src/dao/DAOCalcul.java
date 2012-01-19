@@ -36,11 +36,10 @@ public class DAOCalcul {
 		Connection connection = getConnection();
 		try {
 			CallableStatement call = connection
-					.prepareCall("INSERT INTO calcul(num1,num2,result,idsession) values(?,?,?,?)");
+					.prepareCall("INSERT INTO calcul(num1,num2,result,idsession) values(?,?,?)");
 			call.setInt(1, c.getNum1());
 			call.setInt(2, c.getNum2());
-			call.setInt(3, c.getResult());
-			call.setString(4, c.getIdSession());
+			call.setString(3, c.getIdSession());
 
 			call.execute();
 			int id = 0;
@@ -73,8 +72,7 @@ public class DAOCalcul {
 				c.setId(rs.getInt(1));
 				c.setNum1(rs.getInt(2));
 				c.setNum2(rs.getInt(3));
-				c.setResult(rs.getInt(4));
-				c.setIdSession(rs.getString(5));
+				c.setIdSession(rs.getString(4));
 				list.add(c);
 			}
 			rs.close();
