@@ -8,6 +8,15 @@ public class Calcul {
 	private int num1;
 	private int num2;
 	private int result;
+	private String idSession;
+
+	public String getIdSession() {
+		return idSession;
+	}
+
+	public void setIdSession(String idSession) {
+		this.idSession = idSession;
+	}
 
 	public int getId() {
 		return id;
