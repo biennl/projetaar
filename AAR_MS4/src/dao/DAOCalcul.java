@@ -10,8 +10,10 @@ import java.sql.Statement;
 import domain.Calcul;
 
 public class DAOCalcul {
+
+	static Connection connection = null;
+
 	private static Connection getConnection() {
-		Connection connection = null;
 
 		String username = "root";
 		String password = "1234";
@@ -19,7 +21,9 @@ public class DAOCalcul {
 
 		try {
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
-			connection = DriverManager.getConnection(url, username, password);
+			if (connection == null)
+				connection = DriverManager.getConnection(url, username,
+						password);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
