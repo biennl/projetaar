@@ -67,7 +67,7 @@ public class DAOCalcul {
 			ResultSet rs = call
 					.executeQuery("SELECT * FROM calcul WHERE idcalcul=" + id);
 			String idSession = "";
-			if (rs.next()) {
+			while (rs.next()) {
 				idSession = rs.getString(4);
 			}
 			rs.close();
