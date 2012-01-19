@@ -66,8 +66,8 @@ public class DAOCalcul {
 		try {
 			Statement call = connection.createStatement();
 			ResultSet rs = call
-					.executeQuery("SELECT * FROM calcul WHERE idsession="
-							+ idSession + " and idcalcul <= " + id);
+					.executeQuery("SELECT * FROM calcul WHERE idsession=\""
+							+ idSession + "\" and idcalcul <= " + id);
 			if (rs.next()) {
 				Calcul c = new Calcul();
 				c.setId(rs.getInt(1));

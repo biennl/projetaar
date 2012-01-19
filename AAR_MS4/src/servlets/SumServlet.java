@@ -59,10 +59,11 @@ public class SumServlet extends HttpServlet {
 			c.setNum2(Integer.parseInt(number));
 			value += Integer.parseInt(number);
 			c.setResult(value);
+			c.setIdSession(request.getSession().getId());
 			id = dao.addCalcul(c);
 		}
-		String url = response.encodeRedirectURL("/createUrl.jsp?id=" + value);
-		response.sendRedirect(request.getContextPath() + "/createUrl.jsp?id="
+		String url = response.encodeRedirectURL("/addition.jsp?id=" + value);
+		response.sendRedirect(request.getContextPath() + "/addition.jsp?id="
 				+ id);
 		// RequestDispatcher dispatcher = request.getRequestDispatcher(url);
 		// System.out.println(url);
