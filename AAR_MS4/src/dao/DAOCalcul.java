@@ -36,7 +36,7 @@ public class DAOCalcul {
 		Connection connection = getConnection();
 		try {
 			CallableStatement call = connection
-					.prepareCall("INSERT INTO calcul(num1,num2,result,idsession) values(?,?,?)");
+					.prepareCall("INSERT INTO calcul(num1,num2,idsession) values(?,?,?)");
 			call.setInt(1, c.getNum1());
 			call.setInt(2, c.getNum2());
 			call.setString(3, c.getIdSession());
@@ -59,15 +59,22 @@ public class DAOCalcul {
 		}
 	}
 
-	public List<Calcul> getCalculById(int id, String idSession) {
+	public List<Calcul> getCalculById(int id) {
 		List<Calcul> list = new ArrayList<Calcul>();
 		Connection connection = getConnection();
 		try {
 			Statement call = connection.createStatement();
 			ResultSet rs = call
-					.executeQuery("SELECT * FROM calcul WHERE idsession=\""
-							+ idSession + "\" and idcalcul <= " + id);
+					.executeQuery("SELECT * FROM calcul WHERE idcalcul=" + id);
+			String idSession = "";
 			if (rs.next()) {
+				idSession = rs.getString(4);
+			}
+			rs.close();
+			rs = call.executeQuery("SELECT * FROM calcul WHERE idsession=\""
+					+ idSession + "\" and idcalcul <= " + id);
+
+			while (rs.next()) {
 				Calcul c = new Calcul();
 				c.setId(rs.getInt(1));
 				c.setNum1(rs.getInt(2));

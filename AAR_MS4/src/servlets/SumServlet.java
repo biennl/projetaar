@@ -3,12 +3,10 @@ package servlets;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import dao.DAOCalcul;
 import domain.Calcul;
@@ -21,7 +19,7 @@ public class SumServlet extends HttpServlet {
 
 	ArrayList<Double> numbers = new ArrayList<Double>();
 	int value = 0;
-	int index = 0;
+	String idSession = "";
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -37,11 +35,10 @@ public class SumServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		System.out.println(request.getContextPath() + request.getServletPath()
-				+ request.getPathInfo());
-		request.setAttribute("id", 0);
-		String url = (String) request.getAttribute("url");
-		System.out.println(url);
+
+		String id = request.getParameter("id");
+		response.sendRedirect(request.getContextPath() + "/addition.jsp?id="
+				+ id);
 	}
 
 	/**
@@ -50,22 +47,23 @@ public class SumServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		String number = request.getParameter("name");
+
+		String number = request.getParameter("number");
 		DAOCalcul dao = new DAOCalcul();
 		int id = 0;
+		if (!idSession.equals(request.getSession().getId())) {
+			value = 0;
+			idSession = request.getSession().getId();
+		}
 		if (number != null && !number.isEmpty()) {
 			Calcul c = new Calcul();
 			c.setNum1(value);
 			c.setNum2(Integer.parseInt(number));
 			value += Integer.parseInt(number);
-			c.setIdSession(request.getSession().getId());
+			c.setIdSession(idSession);
 			id = dao.addCalcul(c);
 		}
 		response.sendRedirect(request.getContextPath() + "/addition.jsp?id="
 				+ id);
-		// RequestDispatcher dispatcher = request.getRequestDispatcher(url);
-		// System.out.println(url);
-		// request.setAttribute("id", value);
-		// dispatcher.include(request, response);
 	}
 }
