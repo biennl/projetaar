@@ -1,7 +1,5 @@
 package domain;
 
-import java.util.ArrayList;
-
 public class Calcul {
 
 	private int id;
