@@ -4,40 +4,40 @@ import java.util.ArrayList;
 
 public class Calcul {
 
-	private long id;
-	private long num1;
-	private long num2;
-	private long result;
+	private int id;
+	private int num1;
+	private int num2;
+	private int result;
 
-	public long getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
-	public long getNum1() {
+	public int getNum1() {
 		return num1;
 	}
 
-	public void setNum1(long num1) {
+	public void setNum1(int num1) {
 		this.num1 = num1;
 	}
 
-	public long getNum2() {
+	public int getNum2() {
 		return num2;
 	}
 
-	public void setNum2(long num2) {
+	public void setNum2(int num2) {
 		this.num2 = num2;
 	}
 
-	public long getResult() {
+	public int getResult() {
 		return result;
 	}
 
-	public void setResult(long result) {
+	public void setResult(int result) {
 		this.result = result;
 	}
 
