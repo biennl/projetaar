@@ -5,14 +5,14 @@ public class Calcul {
 	private int id;
 	private int num1;
 	private int num2;
-	private String idSession;
+	private int lastCalcul;
 
-	public String getIdSession() {
-		return idSession;
+	public int getLastCalcul() {
+		return lastCalcul;
 	}
 
-	public void setIdSession(String idSession) {
-		this.idSession = idSession;
+	public void setLastCalcul(int lastCalcul) {
+		this.lastCalcul = lastCalcul;
 	}
 
 	public int getId() {
