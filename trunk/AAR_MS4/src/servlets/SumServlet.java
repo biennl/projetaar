@@ -55,7 +55,7 @@ public class SumServlet extends HttpServlet {
 			Calcul c = new Calcul();
 
 			c.setNum2(Integer.parseInt(number));
-			if (!lastID.equals(null)) {
+			if (lastID != null) {
 				c.setLastCalcul(Integer.parseInt(lastID));
 				int num1 = dao.getLastSumById(Integer.parseInt(lastID));
 				c.setNum1(num1);
