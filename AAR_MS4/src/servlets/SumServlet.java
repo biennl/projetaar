@@ -18,15 +18,14 @@ public class SumServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	ArrayList<Double> numbers = new ArrayList<Double>();
-	int value = 0;
-	String idSession = "";
+	DAOCalcul dao;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
 	public SumServlet() {
 		super();
-		// TODO Auto-generated constructor stub
+		dao = new DAOCalcul();
 	}
 
 	/**
@@ -35,10 +34,11 @@ public class SumServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-
-		String id = request.getParameter("id");
-		response.sendRedirect(request.getContextPath() + "/addition.jsp?id="
-				+ id);
+		System.out.println(request.getRequestURL());
+		// String id = request.getParameter("id");
+		// value = dao.getLastNumberById(Integer.parseInt(id));
+		// response.sendRedirect(request.getContextPath() + "/addition.jsp?id="
+		// + id);
 	}
 
 	/**
@@ -49,18 +49,21 @@ public class SumServlet extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 
 		String number = request.getParameter("number");
-		DAOCalcul dao = new DAOCalcul();
+		String lastID = request.getParameter("id");
 		int id = 0;
-		if (!idSession.equals(request.getSession().getId())) {
-			value = 0;
-			idSession = request.getSession().getId();
-		}
 		if (number != null && !number.isEmpty()) {
 			Calcul c = new Calcul();
-			c.setNum1(value);
+
 			c.setNum2(Integer.parseInt(number));
-			value += Integer.parseInt(number);
-			c.setIdSession(idSession);
+			if (!lastID.equals(null)) {
+				c.setLastCalcul(Integer.parseInt(lastID));
+				int num1 = dao.getLastSumById(Integer.parseInt(lastID));
+				c.setNum1(num1);
+
+			} else {
+				c.setNum1(0);
+				c.setLastCalcul(0);
+			}
 			id = dao.addCalcul(c);
 		}
 		response.sendRedirect(request.getContextPath() + "/addition.jsp?id="

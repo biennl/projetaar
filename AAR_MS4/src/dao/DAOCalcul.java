@@ -36,10 +36,10 @@ public class DAOCalcul {
 		Connection connection = getConnection();
 		try {
 			CallableStatement call = connection
-					.prepareCall("INSERT INTO calcul(num1,num2,idsession) values(?,?,?)");
+					.prepareCall("INSERT INTO calcul(num1,num2,lastcalcul) values(?,?,?)");
 			call.setInt(1, c.getNum1());
 			call.setInt(2, c.getNum2());
-			call.setString(3, c.getIdSession());
+			call.setInt(3, c.getLastCalcul());
 
 			call.execute();
 			int id = 0;
@@ -66,21 +66,18 @@ public class DAOCalcul {
 			Statement call = connection.createStatement();
 			ResultSet rs = call
 					.executeQuery("SELECT * FROM calcul WHERE idcalcul=" + id);
-			String idSession = "";
-			while (rs.next()) {
-				idSession = rs.getString(4);
-			}
-			rs.close();
-			rs = call.executeQuery("SELECT * FROM calcul WHERE idsession=\""
-					+ idSession + "\" and idcalcul <= " + id);
+			int lastCalcul = 0;
+			if (rs.next()) {
+				lastCalcul = rs.getInt(4);
 
-			while (rs.next()) {
 				Calcul c = new Calcul();
 				c.setId(rs.getInt(1));
 				c.setNum1(rs.getInt(2));
 				c.setNum2(rs.getInt(3));
-				c.setIdSession(rs.getString(4));
+				c.setLastCalcul(lastCalcul);
 				list.add(c);
+				if (lastCalcul != 0)
+					list.addAll(getCalculById(lastCalcul));
 			}
 			rs.close();
 			call.close();
@@ -89,5 +86,27 @@ public class DAOCalcul {
 			e.printStackTrace();
 		}
 		return list;
+	}
+
+	public int getLastSumById(int id) {
+		Connection connection = getConnection();
+		int num1 = 0, num2 = 0;
+		try {
+			Statement call = connection.createStatement();
+			ResultSet rs = call
+					.executeQuery("SELECT * FROM calcul WHERE idcalcul=" + id);
+
+			while (rs.next()) {
+				num1 = rs.getInt(2);
+				num2 = rs.getInt(3);
+			}
+			rs.close();
+			call.close();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return num1 + num2;
+
 	}
 }

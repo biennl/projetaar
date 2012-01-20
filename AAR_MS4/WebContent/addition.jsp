@@ -29,10 +29,10 @@ public String listToString(List<Calcul> list) {
 String str = request.getParameter("id");
 List<Calcul> list = new ArrayList<Calcul>();
 if(str !=null && !str.isEmpty()){
-int id= Integer.parseInt(str);
-DAOCalcul dao = new DAOCalcul();
-list = dao.getCalculById(id);}
-%>
+	int id= Integer.parseInt(str);
+	DAOCalcul dao = new DAOCalcul();
+	list = dao.getCalculById(id);
+}%>
 <html>
 <head>
 <script type="text/javascript" src="jquery-1.4.1.js"></script>
@@ -47,25 +47,14 @@ function isNumeric(){
 }
 	
 function clonePage(){
-	var myDOCTYPE = "<!DOCTYPE html PUBLIC \"-\//W3C\//DTD HTML 4.01 Transitional\//EN\" \"http:\//www.w3.org/TR/html4/loose.dtd\">";
-	var url = document.location.href;
-	alert(url);
-	var newWindow = window.open(url, "_blank");
-	var newDocument = newWindow.document;
-	newDocument.open();
-	newDocument.write(myDOCTYPE+
-	           "<html>"+
-	               document.documentElement.innerHTML+
-	           "</html>");
-	newDocument.close();
-
+	var newWindow = window.open(document.location.href);
 }
 </script>
 <title>Infinite sum</title>
 </head>
 <body>
 <font size="4" color="green">Enter a number please!</font>
-<form action="Sum" method="post" onsubmit="return isNumeric()">
+<form action="Sum?id=<%=str%>" method="post" onsubmit="return isNumeric()">
 <table>
 	<tr>
 		<td></td>
