@@ -11,14 +11,15 @@ public String listToString(List<Calcul> list) {
 
 	String res = "";
 	res = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-	if(list!=null && list.size()>0)
-	res += list.get(0).getNum1();
+	int size = list.size();	
+	if(list!=null && size>0)
+	res += list.get(size - 1).getNum1();
 	
-	for (int i = 0; i < list.size(); i++) {
+	for (int i = size - 1; i >= 0; i--) {
 		res += "<br>+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+list.get(i).getNum2();
-		res += "<hr width = \"60\" noshade=\"noshade\" align =\"left\" />";
+		res += "<hr width = \"80\" noshade=\"noshade\" align =\"left\" />";
 		res+="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-		if(i+1 < list.size() - 1)
+		if(i-1 > 0)
 			res += list.get(i+1).getNum1();
 		else res += (list.get(i).getNum1()+list.get(i).getNum2());				
 	}
@@ -27,6 +28,7 @@ public String listToString(List<Calcul> list) {
 }%>
 <%
 String str = request.getParameter("id");
+String lastID = (str == null ) ? "" : "?id="+str;
 List<Calcul> list = new ArrayList<Calcul>();
 if(str !=null && !str.isEmpty()){
 	int id= Integer.parseInt(str);
@@ -38,9 +40,9 @@ if(str !=null && !str.isEmpty()){
 <script type="text/javascript" src="jquery-1.4.1.js"></script>
 <script type="text/javascript">
 function isNumeric(){
-    var RE = /^-{0,1}\d*\.{0,1}\d+$/;
+    var RE = /^-{0,1}\d*\d+$/;
     if(!RE.test($("#number").val())){
-    	$("#lbNumber").text("Only number!!");
+    	$("#lbNumber").text("Only integer!!");
     	return false;
     }
     return true;
@@ -54,7 +56,7 @@ function clonePage(){
 </head>
 <body>
 <font size="4" color="green">Enter a number please!</font>
-<form action="Sum?id=<%=str%>" method="post" onsubmit="return isNumeric()">
+<form action="Sum<%=lastID%>" method="post" onsubmit="return isNumeric()">
 <table>
 	<tr>
 		<td></td>
