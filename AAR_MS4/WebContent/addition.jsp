@@ -45,7 +45,21 @@ function isNumeric(){
     }
     return true;
 }
-			
+	
+function clonePage(){
+	var myDOCTYPE = "<!DOCTYPE html PUBLIC \"-\//W3C\//DTD HTML 4.01 Transitional\//EN\" \"http:\//www.w3.org/TR/html4/loose.dtd\">";
+	var url = document.location.href;
+	alert(url);
+	var newWindow = window.open(url, "_blank");
+	var newDocument = newWindow.document;
+	newDocument.open();
+	newDocument.write(myDOCTYPE+
+	           "<html>"+
+	               document.documentElement.innerHTML+
+	           "</html>");
+	newDocument.close();
+
+}
 </script>
 <title>Infinite sum</title>
 </head>
@@ -64,7 +78,8 @@ function isNumeric(){
 </form>
 
 <hr/>
-
+<input type="button" value="CLONE PAGE" onclick="clonePage()">
+<hr/>
 <b>Previous operation(s) :</b><br>
 <%=listToString(list) %>
 </body>
