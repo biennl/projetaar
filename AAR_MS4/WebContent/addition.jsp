@@ -26,21 +26,43 @@ public String listToString(List<Calcul> list) {
 
 	return res;
 }%>
+
+<html>
+<head>
 <%
 String str = request.getParameter("id");
+int id = 0;
+String idCalcul = (str==null)?"":str;
 String lastID = (str == null ) ? "" : "?id="+str;
 List<Calcul> list = new ArrayList<Calcul>();
 String msg ="&nbsp;&nbsp;&nbsp;A number please !";
+String jsMsg ="Sorry! this calculation does not existed!";
 String plusSign = "";
+DAOCalcul dao = new DAOCalcul();
+int idMax = dao.getMaxId();
 if(str !=null && !str.isEmpty()){
-	int id= Integer.parseInt(str);
-	DAOCalcul dao = new DAOCalcul();
-	list = dao.getCalculById(id);
-	msg ="&nbsp;&nbsp;"+ (list.get(0).getNum1()+list.get(0).getNum2());
-	plusSign = "+";
-}%>
-<html>
-<head>
+	id= Integer.parseInt(str);
+	if(id<=idMax){
+		list = dao.getCalculById(id);
+		if(list.size()>0){
+			msg ="&nbsp;&nbsp;&nbsp;&nbsp;"+ (list.get(0).getNum1()+list.get(0).getNum2());
+			plusSign = "+";}
+		else msg ="Sorry! this calculation is expired! Enter a number to start";
+	}
+// 	else
+// 	{
+%>
+<script type="text/javascript">
+function isValidLink(id){
+	if(id > <%=idMax%> ){
+		alert("<%=jsMsg%>");
+		window.location="http://localhost:8080/AAR_MS4/";
+	}
+}
+</script>
+<%//}
+}
+%>
 <script type="text/javascript" src="jquery-1.4.1.js"></script>
 <script type="text/javascript">
 function isNumeric(){
@@ -53,17 +75,31 @@ function isNumeric(){
 }
 	
 function clonePage(){
-	var newWindow = window.open(document.location.href);
+	window.open(document.location.href);
+}
+
+function timer(){
+	var aTimer = setTimeout('deleteHistory(<%=idCalcul%>)',10000);
+}
+
+function deleteHistory(param){
+	$.get("Sum",{id:param});
+}
+
+function doPermalien(){
+	$.get("Sum",{idPerm:<%=idCalcul%>});
 }
 </script>
 <title>Infinite sum</title>
 </head>
-<body>
-
-<input type="button" value="CLONE PAGE" onclick="clonePage()">
+<body onload="timer();isValidLink(<%=id%>)">
+<input type="button" value="PREV" onClick="history.back()">
+<input type="button" value="NEXT" onClick="history.forward()">
+<input type="button" value="CLONE" onclick="clonePage()">
+<input type="button" value="PERMALIEN" onclick="doPermalien()">
 <hr/><br>
 
-<font size="4" color="green"><%=msg %></font>
+<font size="4" color="green"><%=msg%></font>
 <form action="Sum<%=lastID%>" method="post" onsubmit="return isNumeric()">
 <table>
 	<tr>

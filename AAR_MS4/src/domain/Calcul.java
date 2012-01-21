@@ -6,6 +6,15 @@ public class Calcul {
 	private int num1;
 	private int num2;
 	private int lastCalcul;
+	private boolean permalien;
+
+	public boolean isPermalien() {
+		return permalien;
+	}
+
+	public void setPermalien(boolean permalien) {
+		this.permalien = permalien;
+	}
 
 	public int getLastCalcul() {
 		return lastCalcul;

@@ -34,11 +34,18 @@ public class SumServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		System.out.println(request.getRequestURL());
-		// String id = request.getParameter("id");
-		// value = dao.getLastNumberById(Integer.parseInt(id));
-		// response.sendRedirect(request.getContextPath() + "/addition.jsp?id="
-		// + id);
+		System.out.println(request.getParameter("id"));
+		String str = request.getParameter("id");
+		if (str != null) {
+			int id = Integer.parseInt(str);
+			dao.deleteHistory(id);
+		}
+
+		String strPerm = request.getParameter("idPerm");
+		if (strPerm != null) {
+			int id = Integer.parseInt(strPerm);
+			dao.updatePermalien(id);
+		}
 	}
 
 	/**
@@ -50,6 +57,7 @@ public class SumServlet extends HttpServlet {
 
 		String number = request.getParameter("number");
 		String lastID = request.getParameter("id");
+		// System.out.println(request.getParameter("email"));
 		int id = 0;
 		if (number != null && !number.isEmpty()) {
 			Calcul c = new Calcul();
