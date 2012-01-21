@@ -20,7 +20,7 @@ public String listToString(List<Calcul> list) {
 		res += "<hr width = \"80\" noshade=\"noshade\" align =\"left\" />";
 		res+="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 		if(i-1 > 0)
-			res += list.get(i+1).getNum1();
+			res += list.get(i-1).getNum1();
 		else res += (list.get(i).getNum1()+list.get(i).getNum2());				
 	}
 
@@ -30,10 +30,14 @@ public String listToString(List<Calcul> list) {
 String str = request.getParameter("id");
 String lastID = (str == null ) ? "" : "?id="+str;
 List<Calcul> list = new ArrayList<Calcul>();
+String msg ="&nbsp;&nbsp;&nbsp;A number please !";
+String plusSign = "";
 if(str !=null && !str.isEmpty()){
 	int id= Integer.parseInt(str);
 	DAOCalcul dao = new DAOCalcul();
 	list = dao.getCalculById(id);
+	msg ="&nbsp;&nbsp;"+ (list.get(0).getNum1()+list.get(0).getNum2());
+	plusSign = "+";
 }%>
 <html>
 <head>
@@ -55,12 +59,16 @@ function clonePage(){
 <title>Infinite sum</title>
 </head>
 <body>
-<font size="4" color="green">Enter a number please!</font>
+
+<input type="button" value="CLONE PAGE" onclick="clonePage()">
+<hr/><br>
+
+<font size="4" color="green"><%=msg %></font>
 <form action="Sum<%=lastID%>" method="post" onsubmit="return isNumeric()">
 <table>
 	<tr>
 		<td></td>
-		<td><input type="text" name="number" id="number"/></td><td><label id="lbNumber" style="color: red;"></label></td>
+		<td><%=plusSign%><input type="text" name="number" id="number"/></td><td><label id="lbNumber" style="color: red;"></label></td>
 	</tr>
 	<tr>
 		<td></td><td><input type="submit" value="SUM" /></td>
@@ -68,8 +76,6 @@ function clonePage(){
 </table>
 </form>
 
-<hr/>
-<input type="button" value="CLONE PAGE" onclick="clonePage()">
 <hr/>
 <b>Previous operation(s) :</b><br>
 <%=listToString(list) %>
