@@ -32,6 +32,25 @@ public class DAOCalcul {
 		return connection;
 	}
 
+	public int getMaxId() {
+		int id = 0;
+		Connection connection = getConnection();
+		Statement stmt;
+		try {
+			stmt = connection.createStatement();
+			ResultSet rs = stmt.executeQuery("Select LAST_INSERT_ID()");
+			if (rs.next()) {
+				id = rs.getInt(1);
+			}
+			rs.close();
+			stmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return id;
+	}
+
 	public int addCalcul(Calcul c) {
 		Connection connection = getConnection();
 		try {
@@ -59,6 +78,32 @@ public class DAOCalcul {
 		}
 	}
 
+	public void updatePermalien(int id) {
+		Connection connection = getConnection();
+		List<Calcul> listCalcul = getCalculById(id);
+		if (listCalcul.size() == 0)
+			return;
+		Statement call;
+		for (int i = 0; i < listCalcul.size(); i++) {
+			try {
+				call = connection.createStatement();
+				call.executeUpdate("UPDATE calcul SET permalien=1 WHERE idcalcul="
+						+ listCalcul.get(i).getId());
+				call.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		// try {
+		// call = connection.createStatement();
+		// call.executeUpdate("UPDATE calcul SET permalien=1 WHERE idcalcul="
+		// + id);
+		// call.close();
+		// } catch (SQLException e) {
+		// e.printStackTrace();
+		// }
+	}
+
 	public List<Calcul> getCalculById(int id) {
 		List<Calcul> list = new ArrayList<Calcul>();
 		Connection connection = getConnection();
@@ -75,6 +120,10 @@ public class DAOCalcul {
 				c.setNum1(rs.getInt(2));
 				c.setNum2(rs.getInt(3));
 				c.setLastCalcul(lastCalcul);
+				if (rs.getInt(5) == 1)
+					c.setPermalien(true);
+				else
+					c.setPermalien(false);
 				list.add(c);
 				if (lastCalcul != 0)
 					list.addAll(getCalculById(lastCalcul));
@@ -86,6 +135,43 @@ public class DAOCalcul {
 			e.printStackTrace();
 		}
 		return list;
+	}
+
+	public void deleteHistory(int id) {
+		List<Calcul> listCalcul = getCalculById(id);
+		Connection connection = getConnection();
+		if (listCalcul.size() == 0)
+			return;
+		Statement call;
+		if (!listCalcul.get(0).isPermalien()) {
+			// delete history
+			// try {
+			// call = connection.createStatement();
+			// call.executeUpdate("DELETE FROM calcul WHERE permalien=0");
+			// call.close();
+			// } catch (SQLException e) {
+			// e.printStackTrace();
+			// }
+			for (int i = 0; i < listCalcul.size(); i++) {
+				try {
+					call = connection.createStatement();
+					call.executeUpdate("DELETE FROM calcul WHERE permalien=0 AND idcalcul="
+							+ listCalcul.get(i).getId());
+					call.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			// update lastcalcul for actuel calcul
+			// try {
+			// call = connection.createStatement();
+			// call.executeUpdate("UPDATE calcul SET lastcalcul=0 WHERE idcalcul="
+			// + id);
+			// call.close();
+			// } catch (SQLException e) {
+			// e.printStackTrace();
+			// }
+		}
 	}
 
 	public int getLastSumById(int id) {
