@@ -137,40 +137,15 @@ public class DAOCalcul {
 		return list;
 	}
 
-	public void deleteHistory(int id) {
-		List<Calcul> listCalcul = getCalculById(id);
+	public void deleteHistory() {
 		Connection connection = getConnection();
-		if (listCalcul.size() == 0)
-			return;
 		Statement call;
-		if (!listCalcul.get(0).isPermalien()) {
-			// delete history
-			// try {
-			// call = connection.createStatement();
-			// call.executeUpdate("DELETE FROM calcul WHERE permalien=0");
-			// call.close();
-			// } catch (SQLException e) {
-			// e.printStackTrace();
-			// }
-			for (int i = 0; i < listCalcul.size(); i++) {
-				try {
-					call = connection.createStatement();
-					call.executeUpdate("DELETE FROM calcul WHERE permalien=0 AND idcalcul="
-							+ listCalcul.get(i).getId());
-					call.close();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-			// update lastcalcul for actuel calcul
-			// try {
-			// call = connection.createStatement();
-			// call.executeUpdate("UPDATE calcul SET lastcalcul=0 WHERE idcalcul="
-			// + id);
-			// call.close();
-			// } catch (SQLException e) {
-			// e.printStackTrace();
-			// }
+		try {
+			call = connection.createStatement();
+			call.executeUpdate("DELETE FROM calcul WHERE permalien=0");
+			call.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 	}
 
