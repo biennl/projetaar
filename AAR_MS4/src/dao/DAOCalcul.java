@@ -94,14 +94,6 @@ public class DAOCalcul {
 				e.printStackTrace();
 			}
 		}
-		// try {
-		// call = connection.createStatement();
-		// call.executeUpdate("UPDATE calcul SET permalien=1 WHERE idcalcul="
-		// + id);
-		// call.close();
-		// } catch (SQLException e) {
-		// e.printStackTrace();
-		// }
 	}
 
 	public List<Calcul> getCalculById(int id) {

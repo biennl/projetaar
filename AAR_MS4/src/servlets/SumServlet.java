@@ -34,7 +34,6 @@ public class SumServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
-		System.out.println(request.getParameter("id"));
 		String str = request.getParameter("id");
 		if (str != null) {
 			dao.deleteHistory();
@@ -56,7 +55,6 @@ public class SumServlet extends HttpServlet {
 
 		String number = request.getParameter("number");
 		String lastID = request.getParameter("id");
-		// System.out.println(request.getParameter("email"));
 		int id = 0;
 		if (number != null && !number.isEmpty()) {
 			Calcul c = new Calcul();
