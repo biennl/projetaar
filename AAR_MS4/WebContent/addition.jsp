@@ -32,7 +32,7 @@ public String listToString(List<Calcul> list) {
 <%
 String str = request.getParameter("id");
 int id = 0;
-String idCalcul = (str==null)? "" : str;
+String idCalcul = (str==null)? "0" : str;
 String lastID = (str == null ) ? "" : "?id="+str;
 List<Calcul> list = new ArrayList<Calcul>();
 String msg = "&nbsp;&nbsp;&nbsp;A number please !";
@@ -57,7 +57,7 @@ if(str !=null && !str.isEmpty()){
 %>
 <script type="text/javascript" src="jquery-1.4.1.js"></script>
 <script type="text/javascript">
-var tOut = 0;
+
 function isValidLink(id){
 	if(<%=isNotValid%>){
 		alert("This link is not valid!");
@@ -85,16 +85,18 @@ function clonePage(){
 	window.open(document.location.href);
 }
 
-function timeOut()
-{
-	//tOut =10000;
-	alert("0000");
-}
 function timer(){
-	var aTimer = setTimeout('deleteHistory()',10000);
+	var tOut =$('#tOutID').val();
+	var val = 10000;
+	if(tOut != null && tOut != ""){
+		val = tOut;	
+	}
+	
+	setTimeout('deleteHistory()',val);
 }
 
 function deleteHistory(){
+	
 	$.get("Sum",{id:<%=id%>});
 	//window.location=document.location.href;
 }
@@ -112,7 +114,7 @@ function doPermalien(){
 <input type="button" value="PERMALIEN" onclick="doPermalien()">
 <hr/><br>
 
-<input type="text" size="3" value= "" id="tOutID" /><input type="button" value="Set Time Out" onclick="timeOut()" /><br>
+<input type="text" size="3" value= "" id="tOutID" /><input type="button" name="setTimeOut" value="Set Time Out" onclick="timer()" /><br>
 <font size="4" color="green"><%=msg%></font>
 <form action="Sum<%=lastID%>" method="post" onsubmit="return isNumeric()">
 <table>
