@@ -57,6 +57,7 @@ if(str !=null && !str.isEmpty()){
 %>
 <script type="text/javascript" src="jquery-1.4.1.js"></script>
 <script type="text/javascript">
+var tOut = 0;
 function isValidLink(id){
 	if(<%=isNotValid%>){
 		alert("This link is not valid!");
@@ -84,12 +85,18 @@ function clonePage(){
 	window.open(document.location.href);
 }
 
+function timeOut()
+{
+	//tOut =10000;
+	alert("0000");
+}
 function timer(){
 	var aTimer = setTimeout('deleteHistory()',10000);
 }
 
 function deleteHistory(){
-	$.get("Sum",{id:0});
+	$.get("Sum",{id:<%=id%>});
+	//window.location=document.location.href;
 }
 
 function doPermalien(){
@@ -101,10 +108,11 @@ function doPermalien(){
 <body onload="timer();isValidLink(<%=id%>)">
 <input type="button" value="PREV" onClick="history.back()">
 <input type="button" value="NEXT" onClick="history.forward()">
-<input type="button" value="CLONE" onclick="clonePage()">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" value="CLONE" onclick="clonePage()">
 <input type="button" value="PERMALIEN" onclick="doPermalien()">
 <hr/><br>
 
+<input type="text" size="3" value= "" id="tOutID" /><input type="button" value="Set Time Out" onclick="timeOut()" /><br>
 <font size="4" color="green"><%=msg%></font>
 <form action="Sum<%=lastID%>" method="post" onsubmit="return isNumeric()">
 <table>
