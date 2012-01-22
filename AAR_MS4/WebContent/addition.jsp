@@ -86,13 +86,24 @@ function clonePage(){
 }
 
 function timer(){
+
+	var RE = /^-{0,1}\d*\d+$/;
+    
 	var tOut =$('#tOutID').val();
 	var val = 10000;
-	if(tOut != null && tOut != ""){
-		val = tOut;	
-	}
+	if((tOut != null && tOut != "") && (RE.test(tOut))){
+		$("#msgTimeOut").text("Time out set to "+tOut+" second(s).");
+		val = (tOut * 1000);	
+		setTimeout('deleteHistory()',val);
+		setFocus();
+	}else if((tOut != "")&& (!RE.test(tOut))) {
+		alert("Only integer");
+		$('#tOutID').text("");	
+		$('#tOutID').focus();
+	}	
 	
-	setTimeout('deleteHistory()',val);
+	
+	
 }
 
 function deleteHistory(){
@@ -104,17 +115,22 @@ function deleteHistory(){
 function doPermalien(){
 	$.get("Sum",{idPerm:<%=idCalcul%>});
 }
+
+function setFocus(){
+	$('#number').focus();
+}
+
 </script>
 <title>Infinite sum</title>
 </head>
-<body onload="timer();isValidLink(<%=id%>)">
+<body onload="timer();setFocus();isValidLink(<%=id%>)">
 <input type="button" value="PREV" onClick="history.back()">
 <input type="button" value="NEXT" onClick="history.forward()">
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" value="CLONE" onclick="clonePage()">
 <input type="button" value="PERMALIEN" onclick="doPermalien()">
 <hr/><br>
 
-<input type="text" size="3" value= "" id="tOutID" /><input type="button" name="setTimeOut" value="Set Time Out" onclick="timer()" /><br>
+
 <font size="4" color="green"><%=msg%></font>
 <form action="Sum<%=lastID%>" method="post" onsubmit="return isNumeric()">
 <table>
@@ -127,7 +143,9 @@ function doPermalien(){
 	</tr>
 </table>
 </form>
-
+<br>
+Time out : <input type="text" size="3" value= "" id="tOutID" />seconds
+&nbsp;<input type="button" name="setTimeOut" value="Set Time Out" onclick="timer()" /><label id="msgTimeOut" style="color: green;"></label><br>
 <hr/>
 <b>Previous operation(s) :</b><br>
 <%=listToString(list) %>
