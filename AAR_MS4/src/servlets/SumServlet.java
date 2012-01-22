@@ -37,8 +37,7 @@ public class SumServlet extends HttpServlet {
 		System.out.println(request.getParameter("id"));
 		String str = request.getParameter("id");
 		if (str != null) {
-			int id = Integer.parseInt(str);
-			dao.deleteHistory(id);
+			dao.deleteHistory();
 		}
 
 		String strPerm = request.getParameter("idPerm");

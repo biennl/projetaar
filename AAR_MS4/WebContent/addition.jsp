@@ -18,7 +18,7 @@ public String listToString(List<Calcul> list) {
 	for (int i = size - 1; i >= 0; i--) {
 		res += "<br>+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"+list.get(i).getNum2();
 		res += "<hr width = \"80\" noshade=\"noshade\" align =\"left\" />";
-		res+="&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+		res += "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
 		if(i-1 > 0)
 			res += list.get(i-1).getNum1();
 		else res += (list.get(i).getNum1()+list.get(i).getNum2());				
@@ -32,39 +32,45 @@ public String listToString(List<Calcul> list) {
 <%
 String str = request.getParameter("id");
 int id = 0;
-String idCalcul = (str==null)?"":str;
+String idCalcul = (str==null)? "" : str;
 String lastID = (str == null ) ? "" : "?id="+str;
 List<Calcul> list = new ArrayList<Calcul>();
-String msg ="&nbsp;&nbsp;&nbsp;A number please !";
-String jsMsg ="Sorry! this calculation does not existed!";
+String msg = "&nbsp;&nbsp;&nbsp;A number please !";
+String jsMsg = "Sorry! this calculation does not existed!";
 String plusSign = "";
 DAOCalcul dao = new DAOCalcul();
 int idMax = dao.getMaxId();
+boolean isReturn = false;//indique qu'il faut retourner la page racine.
+boolean isNotValid = false;
 if(str !=null && !str.isEmpty()){
-	id= Integer.parseInt(str);
-	if(id<=idMax){
-		list = dao.getCalculById(id);
-		if(list.size()>0){
-			msg ="&nbsp;&nbsp;&nbsp;&nbsp;"+ (list.get(0).getNum1()+list.get(0).getNum2());
-			plusSign = "+";}
-		else msg ="Sorry! this calculation is expired! Enter a number to start";
-	}
-// 	else
-// 	{
-%>
-<script type="text/javascript">
-function isValidLink(id){
-	if(id > <%=idMax%> ){
-		alert("<%=jsMsg%>");
-		window.location="http://localhost:8080/AAR_MS4/";
-	}
-}
-</script>
-<%//}
-}
+	try{
+		id= Integer.parseInt(str);
+		if(id<=idMax){
+			list = dao.getCalculById(id);
+			if(list.size()>0){
+				msg = "&nbsp;&nbsp;&nbsp;&nbsp;" + (list.get(0).getNum1()+list.get(0).getNum2());
+				plusSign = "+";
+			}else {msg = "Sorry! this calculation is expired! Enter a number to start";isReturn = true;}
+		}
+	}catch(Exception e){isNotValid = true;}
+}	
 %>
 <script type="text/javascript" src="jquery-1.4.1.js"></script>
 <script type="text/javascript">
+function isValidLink(id){
+	if(<%=isNotValid%>){
+		alert("This link is not valid!");
+		window.location="http://localhost:8080/AAR_MS4/";
+	}
+	else{
+		if(id > <%=idMax%> ){
+			alert("<%=jsMsg%>");
+			window.location="http://localhost:8080/AAR_MS4/";
+		}
+		if(<%=isReturn%>){alert("Session's expired");window.location="http://localhost:8080/AAR_MS4/";}
+	}
+}
+
 function isNumeric(){
     var RE = /^-{0,1}\d*\d+$/;
     if(!RE.test($("#number").val())){
@@ -79,11 +85,11 @@ function clonePage(){
 }
 
 function timer(){
-	var aTimer = setTimeout('deleteHistory(<%=idCalcul%>)',10000);
+	var aTimer = setTimeout('deleteHistory()',10000);
 }
 
-function deleteHistory(param){
-	$.get("Sum",{id:param});
+function deleteHistory(){
+	$.get("Sum",{id:0});
 }
 
 function doPermalien(){
