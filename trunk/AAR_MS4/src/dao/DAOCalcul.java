@@ -129,12 +129,13 @@ public class DAOCalcul {
 		return list;
 	}
 
-	public void deleteHistory() {
+	public void deleteHistory(int id) {
 		Connection connection = getConnection();
 		Statement call;
 		try {
 			call = connection.createStatement();
-			call.executeUpdate("DELETE FROM calcul WHERE permalien=0");
+			call.executeUpdate("DELETE FROM calcul WHERE permalien=0 AND idcalcul <> "
+					+ id);
 			call.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
