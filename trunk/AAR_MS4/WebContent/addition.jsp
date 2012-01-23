@@ -84,20 +84,20 @@ function isNumeric(){
 function clonePage(){
 	window.open(document.location.href);
 }
-var val = 10000;
+
+
+val = 10000;
+nbSec = 0;
 function timer(){
-	var RE = /^-{0,1}\d*\d+$/;
+ var RE = /^-{0,1}\d*\d+$/;
     var tOut =$('#tOutID').val();
-	if(tOut!="") val = (tOut * 1000);
-	if(tOut != null && (RE.test(tOut))){
-		$("#msgTimeOut").text("Time out set to "+ (val/1000) +" second(s).");
-		setTimeout('deleteHistory()',val);
-		setFocus();
-	}else if(tOut!="" && !RE.test(tOut)) {
-		alert("Only integer");
-		$("#tOutID").text("");	
-		$("#tOutID").focus();
-	}		
+    if(tOut!="" && !RE.test(tOut)){alert("Only integer");$("#tOutID").focus();return;}
+ if(tOut!="") val = (tOut * 1000);
+ nbSec = (val/1000);
+ $("#msgTimeOut").text("Time out set to "+nbSec+" second(s).");
+ setTimeout('deleteHistory()',val);
+ setFocus();
+ $("#tOutID").text("");  
 }
 
 function deleteHistory(){
@@ -110,6 +110,7 @@ function doPermalien(){
 
 function setFocus(){
 	$('#number').focus();
+	//$("#msgTimeOut").text("Time out set to 10 second(s)");
 }
 
 </script>
@@ -137,7 +138,8 @@ function setFocus(){
 </form>
 <br>
 Time out : <input type="text" size="3" value= "" id="tOutID" /> seconds
-&nbsp;<input type="button" name="setTimeOut" value="Set Time Out" onclick="timer()" /><label id="msgTimeOut" style="color: green;">Time out set to +<script type="text/javascript">(val/1000);</script>+ second(s).</label><br>
+&nbsp;<input type="button" name="setTimeOut" value="Set Time Out" onclick="timer()" />
+<label id="msgTimeOut" style="color: green;">Time out set to +<script type="text/javascript">nbSec</script>+ second(s).</label><br>
 <hr/>
 <b>Previous operation(s) :</b><br>
 <%=listToString(list) %>
